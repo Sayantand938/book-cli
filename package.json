@@ -1,0 +1,25 @@
+{
+  "name": "book-cli",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "bin": {
+    "book-cli": "bin/cli.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "cheerio": "^1.0.0",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "openai": "^4.86.1",
+    "turndown": "^7.2.0",
+    "xml2js": "^0.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": ""
+}
