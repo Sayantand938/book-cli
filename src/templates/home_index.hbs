@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Listing</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Martian+Mono:wght@400;700&display=swap");
+
+      :root {
+        /* Updated Color Scheme */
+        --primary: #64b5f6; /* Brighter blue that pops better on dark backgrounds */
+        --secondary: #ba68c8; /* Richer purple with better contrast */
+        --accent: #ff80ab; /* Slightly more saturated pink */
+        --background: #1a1a1a; /* Deeper, richer dark background */
+        --card-bg: #2d2d2d; /* Better contrast with background */
+        --card-bg-light: #3d3d3d; /* Distinct enough from card-bg */
+        --text: #f5f5f5; /* Improved readability with slightly brighter text */
+        --text-muted: #b0b0b0; /* New variable for secondary text */
+        --text-bright: #ffffff; /* Pure white for emphasis */
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --border-radius: 8px;
+        --transition: all 0.25s ease-in-out;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--text);
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        line-height: 1.6;
+        padding: var(--spacing-md) var(--spacing-xl);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Typography */
+      h1,
+      h2 {
+        font-family: "Martian Mono", "Roboto Mono", monospace;
+        margin-bottom: var(--spacing-md);
+      }
+
+      h1 {
+        color: #b0b0bf; /* Color from the-da-vinci-code chapter 1 */
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        text-align: center;
+      }
+
+      h2 {
+        color: #a9f7a5; /* Color from the-da-vinci-code chapter 1 */
+      }
+
+      p {
+        font-size: clamp(1rem, 3vw, 1.3rem);
+        margin-bottom: var(--spacing-md);
+      }
+
+      em {
+        color: var(--accent);
+      }
+
+      strong {
+        color: var(--text-bright);
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+        opacity: 0.9;
+      }
+
+      /* Scrollbar */
+      /* Fallback for Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) var(--card-bg);
+      }
+
+      /* WebKit-specific styles */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: var(--border-radius);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+      }
+
+      /* Layout components */
+      .container {
+        width: 100%;
+        padding: var(--spacing-md);
+      }
+
+      .content {
+        padding: var(--spacing-lg);
+        margin: 0 var(--spacing-lg);
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      blockquote {
+        border-left: 4px solid var(--primary);
+        padding-left: var(--spacing-md);
+        color: var(--text-bright);
+        margin: var(--spacing-md) 0;
+      }
+
+      hr {
+        border: 0;
+        height: 1px;
+        background: #333;
+        margin: var(--spacing-lg) 0;
+      }
+
+      /* Search & Filtering */
+      #searchBar {
+        width: 100%;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--text);
+        background-color: #333434; /* A slightly brighter shade */
+        padding-left: 3rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e0e0e0'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 1rem center;
+        background-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      #searchBar:focus {
+        outline: none;
+      }
+
+      /* Book List */
+      #bookList {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: var(--spacing-md);
+        padding: 0;
+      }
+
+      #bookList li {
+        background-color: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #bookList li:hover,
+      #bookList li:focus-within {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      #bookList li img {
+        width: 100%;
+        height: auto;
+        object-fit: fill;
+      }
+
+      #bookList li a {
+        text-align: center;
+        font-weight: bold;
+        flex-grow: 1;
+        display: inherit;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      /* Buttons */
+      .button-glow {
+        display: inline-block;
+        padding: 0.6rem 1rem;
+        background: var(--primary);
+        color: var(--background);
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        font-weight: bold;
+      }
+
+      .button-glow:hover,
+      .button-glow:focus {
+        box-shadow: 0 0 20px rgba(187, 134, 252, 0.8);
+        transform: scale(1.05);
+      }
+
+      .button-glow:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          padding: var(--spacing-sm);
+        }
+
+        h1 {
+          font-size: clamp(1.2rem, 4vw, 1.5rem);
+        }
+
+        p {
+          font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        .container {
+          padding: var(--spacing-sm);
+        }
+
+        .content {
+          padding: var(--spacing-md);
+          margin: 0 var(--spacing-sm);
+        }
+
+        #bookList {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: var(--spacing-sm);
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: var(--spacing-sm);
+        }
+
+        h1 {
+          font-size: clamp(1rem, 4vw, 1.2rem);
+        }
+
+        p {
+          font-size: clamp(0.8rem, 3vw, 0.9rem);
+        }
+
+        #bookList {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-sm);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>EasyRead</h1>
+      <input type="text" id="searchBar" placeholder="Search for books..." />
+      <ul id="bookList">
+        {{#each books}}
+        <li>
+          <a href="{{this.indexPath}}">
+            <img src="{{this.coverPhoto}}" alt="{{this.bookName}}" />
+            <span>{{this.bookName}}</span>
+          </a>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+    <script>
+      const searchBar = document.getElementById("searchBar");
+      const bookList = document.getElementById("bookList");
+
+      searchBar.addEventListener("keyup", (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const books = Array.from(bookList.children).filter((book) =>
+          book.querySelector("img").alt.toLowerCase().includes(searchTerm)
+        );
+        bookList.innerHTML = "";
+        books.forEach((book) => bookList.appendChild(book));
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "/") {
+          e.preventDefault();
+          document.getElementById("searchBar").focus();
+        }
+      });
+    </script>
+  </body>
+</html>

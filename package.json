@@ -1,0 +1,59 @@
+{
+  "name": "book-cli",
+  "version": "1.0.0",
+  "description": "A sample CLI tool using TypeScript and ESM",
+  "bin": {
+    "book-cli": "./bin/book-cli.js"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/cli.js",
+    "./commands/hello": "./dist/commands/hello.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "preferGlobal": true,
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "npm run clean --silent && tsc && shx cp -r src/templates dist/",
+    "start": "node bin/book-cli.js",
+    "dev": "tsx src/cli.ts",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "check-format": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "validate": "npm run lint && npm run check-format"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "env-paths": "^3.0.0",
+    "execa": "^9.5.2",
+    "handlebars": "^4.7.8",
+    "html-minifier-terser": "^7.2.0",
+    "lodash": "^4.17.21",
+    "marked": "^15.0.7",
+    "ora": "^8.2.0",
+    "shx": "^0.3.4",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/lodash": "^4.17.16",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
+  }
+}

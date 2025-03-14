@@ -1,0 +1,109 @@
+<!-- src/templates/toc.hbs -->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{bookFolderName}}</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Martian+Mono:wght@100..800&display=swap');
+      /* CSS Variables */
+      :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --accent-color: #bb86fc;
+        --hover-color: #03dac6;
+        --disabled-color: #4d4d4d;
+        --spacing-small: 10px;
+        --spacing-medium: 20px;
+        --spacing-large: 40px;
+        --font-size-small: 1rem;
+        --font-size-medium: 1.2rem;
+        --font-size-large: 1.5rem;
+      } /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Martian Mono", monospace; /* Added quotes for font-family */
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        padding: var(--spacing-medium);
+      }
+      header {
+        text-align: center;
+      }
+      h1 {
+        font-size: var(--font-size-large);
+        color: #b0b0bf;
+        /* text-transform: uppercase; */
+        letter-spacing: 2px;
+        margin-top: var(--spacing-medium);
+      }
+      main {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: var(--spacing-medium);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      ul {
+        list-style: none;
+        padding: 10 0 0 0;
+      }
+      li {
+        margin: var(--spacing-small) 0;
+      }
+      a {
+        text-decoration: none;
+        color: var(--accent-color);
+        font-size: var(--font-size-medium);
+        transition: color 0.3s ease, transform 0.3s ease;
+        display: inline-block;
+      }
+      a:hover {
+        color: var(--hover-color);
+        transform: translateX(10px);
+      }
+      a[href="#"] {
+        color: var(--disabled-color);
+        pointer-events: none;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+      hr {
+        height: 5px;
+        background-color: #b0b0bf;
+        border: none;
+      } /* Responsive Design */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: var(--font-size-medium);
+        }
+        a {
+          font-size: var(--font-size-small);
+        }
+        main {
+          padding: var(--spacing-small);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>{{bookFolderName}}</h1>
+    </header>
+
+    <main>
+      <hr />
+      <ul>
+        {{#each lines}}
+        <li><a href="{{link}}">{{chapterName}}</a></li>
+        {{/each}}
+      </ul>
+    </main>
+  </body>
+</html>
